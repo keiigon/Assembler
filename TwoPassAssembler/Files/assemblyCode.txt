@@ -1,0 +1,13 @@
+﻿TITLE Copy
+ORG 100
+c CLEAR
+LOAD x
+EXTERN age
+PUBLIC year
+f ADD y
+STORE z
+HALT
+h DUP 5
+x DEC 10
+y HEX c
+Z 0

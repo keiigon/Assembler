@@ -1,0 +1,10 @@
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe.config
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.pdb
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.csprojResolveAssemblyReference.cache
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.exe
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.pdb
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe.manifest
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.application
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.exe.manifest
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.application
