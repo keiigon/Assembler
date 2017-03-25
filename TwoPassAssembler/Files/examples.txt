@@ -1,0 +1,25 @@
+﻿ORG 1000
+TITLE Copy
+CLEAR
+LOAD x
+EXTERN age
+PUBLIC year
+f ADD y
+STORE z
+HALT
+h DUP 1
+x DEC 10
+y HEX c
+Z 0
+*************************************
+LOAD X
+ADD Y
+SUBT Z
+STORE RESULT
+OUTPUT
+HALT
+X DEC 10
+Y DEC 20
+Z DEC 5
+RESULT 0
+*************************************

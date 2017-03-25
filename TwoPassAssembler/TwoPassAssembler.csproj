@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\assemblyCode.txt" />
+    <Content Include="Files\examples.txt" />
     <Content Include="Files\intermediateCode.txt" />
     <Content Include="Files\objectCode.txt" />
     <Content Include="Files\SYMTAB.txt" />
