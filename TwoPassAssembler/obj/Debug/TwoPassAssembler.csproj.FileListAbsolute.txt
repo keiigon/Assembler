@@ -18,3 +18,17 @@ E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPa
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.csprojResolveAssemblyReference.cache
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.exe.manifest
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.application
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe.config
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe.manifest
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.application
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.exe
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\TwoPassAssembler.pdb
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.csprojResolveAssemblyReference.cache
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.exe.manifest
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.application
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.exe
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\obj\Debug\TwoPassAssembler.pdb
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\assemblyCode.txt
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\intermediateCode.txt
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\objectCode.txt
+D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\SYMTAB.txt

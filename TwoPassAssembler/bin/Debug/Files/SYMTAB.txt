@@ -1,0 +1,7 @@
+Loop | 105 | r
+Addr | 111 | r
+Next | 112 | r
+Num | 113 | r
+Sum | 114 | r
+Ctr | 115 | r
+One | 116 | r

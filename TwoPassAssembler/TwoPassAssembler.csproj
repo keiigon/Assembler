@@ -79,11 +79,19 @@
     <None Include="TwoPassAssembler_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\assemblyCode.txt" />
+    <Content Include="Files\assemblyCode.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\examples.txt" />
-    <Content Include="Files\intermediateCode.txt" />
-    <Content Include="Files\objectCode.txt" />
-    <Content Include="Files\SYMTAB.txt" />
+    <Content Include="Files\intermediateCode.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\objectCode.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\SYMTAB.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

@@ -64,8 +64,10 @@ namespace TwoPassAssembler
 
         static void Pass_1()
         {
-            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
+            //string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
+            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode.txt");
 
+            
             using (var reader = new StreamReader(assemblyCode))
             {
                 string line;
@@ -150,7 +152,7 @@ namespace TwoPassAssembler
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
                                 SaveToIntermediateFile(interLine);
-                                locationCounter++;
+                                //locationCounter++;
                             }
                             else if (directive == "TITLE")
                             {
@@ -285,7 +287,8 @@ namespace TwoPassAssembler
 
         static void Pass_2()
         {
-            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
+            //string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
+            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode.txt");
 
             string output = "";
 
@@ -417,7 +420,7 @@ namespace TwoPassAssembler
                             }
                             else if (directive == "HEX")
                             {
-                                output = string.Format("{0:4}", int.Parse(value));
+                                output = string.Format("{0:0000}", int.Parse(value));
                                 SaveToObjectFile(output);
                             }
                         }
@@ -433,11 +436,17 @@ namespace TwoPassAssembler
                     }
                 }
             }
+
+            output = "E " + string.Format("{0:x4}", startingAddress);
+            SaveToObjectFile(output);
         }
 
         private static int GetSymbolAddress(string operand)
         {
-            int address = symTable.SingleOrDefault(a => a.symName == operand).symAddress;
+            var res = symTable.SingleOrDefault(a => a.symName == operand);
+
+            int address = res == null? 0 : res.symAddress;
+
             return address;
         }
 
@@ -449,7 +458,10 @@ namespace TwoPassAssembler
 
         static void SaveToSymbleTable()
         {
-            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
+            //string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
+            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB.txt");
+
+
 
             using (StreamWriter sw = File.AppendText(SYMTAB))
             {
@@ -463,8 +475,10 @@ namespace TwoPassAssembler
 
         static void SaveToIntermediateFile(string inter)
         {
-            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
+            //string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
+            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
 
+            
             using (StreamWriter sw = File.AppendText(intermediateCode))
             {
                 sw.WriteLine(inter);
@@ -473,7 +487,9 @@ namespace TwoPassAssembler
 
         static void SaveToObjectFile(string line)
         {
-            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
+            //string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
+            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
+
 
             using (StreamWriter sw = File.AppendText(objectCode))
             {
@@ -483,14 +499,17 @@ namespace TwoPassAssembler
 
         static void ResetFiles()
         {
-            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
+            //string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
+            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
+
 
             using (StreamWriter sw = new StreamWriter(intermediateCode))
             {
                 sw.Write("");
             }
 
-            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
+            //string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
+            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB.txt");
 
             using (StreamWriter sw = new StreamWriter(SYMTAB))
             {
@@ -500,7 +519,8 @@ namespace TwoPassAssembler
                 }
             }
 
-            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
+            //string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
+            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
 
             using (StreamWriter sw = new StreamWriter(objectCode))
             {
