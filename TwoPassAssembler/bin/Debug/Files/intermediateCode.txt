@@ -1,24 +1,8 @@
-100 ORG 100
-100 LOAD Addr
-101 STORE Next
-102 LOAD Num
-103 SUBT One
-104 STORE Ctr
-105 Loop LOAD Sum
-106 ADDI Next
-107 STORE Sum
-108 LOAD Next
-109 ADD One
-10a STORE Next
-10b LOAD Ctr
-10c SUBT One
-10d STORE Ctr
-10e SKIPCOND 000
-10f JUMP Loop
-110 HALT
-111 Addr HEX 117
-112 Next HEX 0
-113 Num DEC 5
-114 Sum DEC 0
-115 Ctr HEX 0
-116 One DEC 1
+000 org 100
+100 load x
+101 add y
+102 store z
+103 halt
+104 x dec 35
+105 y dec 23
+106 z hex 0000

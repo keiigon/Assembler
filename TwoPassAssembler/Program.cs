@@ -85,7 +85,7 @@ namespace TwoPassAssembler
                     {
                         opCode = lineWords[0];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(opCode));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(opCode.ToLower()));
 
                         if (isInstruction)
                         {
@@ -104,8 +104,8 @@ namespace TwoPassAssembler
                         word_1 = lineWords[0];
                         word_2 = lineWords[1];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(word_1));
-                        bool isDirective = directives.Any(a => a.Equals(word_1));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(word_1.ToLower()));
+                        bool isDirective = directives.Any(a => a.ToLower().Equals(word_1.ToLower()));
 
                         if (isInstruction)
                         {
@@ -120,11 +120,11 @@ namespace TwoPassAssembler
                         {
                             directive = word_1;
 
-                            if (directive == "EXTERN")
+                            if (directive.ToLower() == "EXTERN".ToLower())
                             {
                                 operand = word_2;
 
-                                bool isLabelExist = symTable.Any(a => a.symName.Equals(operand));
+                                bool isLabelExist = symTable.Any(a => a.symName.ToLower().Equals(operand.ToLower()));
 
                                 if (isLabelExist)
                                 {
@@ -144,17 +144,16 @@ namespace TwoPassAssembler
                                     locationCounter++;
                                 }
                             }
-                            else if (directive == "ORG")
+                            else if (directive.ToLower() == "ORG".ToLower())
                             {
                                 value = word_2;
-                                startingAddress = Convert.ToInt32(value, 16);
-                                locationCounter = startingAddress;
+                                startingAddress = Convert.ToInt32(value, 16);                  
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
                                 SaveToIntermediateFile(interLine);
-                                //locationCounter++;
+                                locationCounter = startingAddress;
                             }
-                            else if (directive == "TITLE")
+                            else if (directive.ToLower() == "TITLE".ToLower())
                             {
                                 value = word_2;
 
@@ -166,7 +165,7 @@ namespace TwoPassAssembler
 
                                 locationCounter++;
                             }
-                            else if (directive == "DEFINE")
+                            else if (directive.ToLower() == "DEFINE".ToLower())
                             {
                                 string[] splitWord_2 = word_2.Split('=');
                                 if (splitWord_2.Length == 2)
@@ -179,7 +178,7 @@ namespace TwoPassAssembler
                                 SaveToIntermediateFile(interLine);
                                 locationCounter++;
                             }
-                            else if (directive == "PUBLIC")
+                            else if (directive.ToLower() == "PUBLIC".ToLower())
                             {
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
@@ -192,7 +191,7 @@ namespace TwoPassAssembler
                         {
                             label = word_1;
 
-                            bool isLabelExist = symTable.Any(a => a.symName.Equals(label));
+                            bool isLabelExist = symTable.Any(a => a.symName.ToLower().Equals(label.ToLower()));
 
                             if (isLabelExist)
                             {
@@ -218,7 +217,7 @@ namespace TwoPassAssembler
                     {
                         label = lineWords[0];
 
-                        bool isLabelExist = symTable.Any(a => a.symName.Equals(label));
+                        bool isLabelExist = symTable.Any(a => a.symName.ToLower().Equals(label.ToLower()));
 
                         if (isLabelExist)
                         {
@@ -241,8 +240,8 @@ namespace TwoPassAssembler
                         word_2 = lineWords[1];
                         word_3 = lineWords[2];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(word_2));
-                        bool isDirective = directives.Any(a => a.Equals(word_2));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(word_2.ToLower()));
+                        bool isDirective = directives.Any(a => a.ToLower().Equals(word_2.ToLower()));
 
                         if (isInstruction)
                         {
@@ -254,7 +253,7 @@ namespace TwoPassAssembler
                         {
                             directive = word_2;
                             value = word_3;
-                            if (directive == "DUP")
+                            if (directive.ToLower() == "DUP".ToLower())
                             {
                                 int i = Convert.ToInt32(value, 16);
                                 //Write something to intermediate file interLine =
@@ -292,9 +291,9 @@ namespace TwoPassAssembler
 
             string output = "";
 
-            output = "H " + (string.IsNullOrEmpty(programName) ? "" : programName + " ") + string.Format("{0:x4}", startingAddress) + " " + string.Format("{0:x4}", programSize);
+            //output = "H " + (string.IsNullOrEmpty(programName) ? "" : programName + " ") + string.Format("{0:x4}", startingAddress) + " " + string.Format("{0:x4}", programSize);
 
-            SaveToObjectFile(output);
+            //SaveToObjectFile(output);
 
             using (var reader = new StreamReader(assemblyCode))
             {
@@ -312,13 +311,14 @@ namespace TwoPassAssembler
                     {
                         opCode = lineWords[0];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(opCode));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(opCode.ToLower()));
 
                         if (isInstruction)
                         {
                             int code = GetInstructionCode(opCode);
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", 0);
-                            SaveToObjectFile(output);
+                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                            SaveToObjectFile(binary + " | " + output);
                         }
                         else
                         {
@@ -330,8 +330,8 @@ namespace TwoPassAssembler
                         word_1 = lineWords[0];
                         word_2 = lineWords[1];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(word_1));
-                        bool isDirective = directives.Any(a => a.Equals(word_1));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(word_1.ToLower()));
+                        bool isDirective = directives.Any(a => a.ToLower().Equals(word_1.ToLower()));
 
                         if (isInstruction)
                         {
@@ -342,39 +342,42 @@ namespace TwoPassAssembler
                             int address = GetSymbolAddress(operand);
 
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
-                            SaveToObjectFile(output);
+                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                            SaveToObjectFile(binary + " | " + output);
                         }
                         else if (isDirective)
                         {
                             directive = word_1;
 
-                            if (directive == "EXTERN")
+                            if (directive.ToLower() == "EXTERN".ToLower())
                             {
                                 operand = word_2;
 
                                 int address = GetSymbolAddress(operand);
                                 output = string.Format("{0:x4}", address);
-                                SaveToObjectFile(output);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(binary + " | " + output);
                             }
-                            else if (directive == "ORG")
+                            else if (directive.ToLower() == "ORG".ToLower())
                             {
                                 
                             }
-                            else if (directive == "TITLE")
+                            else if (directive.ToLower() == "TITLE".ToLower())
                             {
                                 
                             }
-                            else if (directive == "DEFINE")
+                            else if (directive.ToLower() == "DEFINE".ToLower())
                             {
                                 
                             }
-                            else if (directive == "PUBLIC")
+                            else if (directive.ToLower() == "PUBLIC".ToLower())
                             {
                                 operand = word_2;
 
                                 int address = GetSymbolAddress(operand);
                                 output = string.Format("{0:x4}", address);
-                                SaveToObjectFile(output);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(binary + " | " + output);
                             }
                         }
                         else //label
@@ -384,7 +387,8 @@ namespace TwoPassAssembler
                             value = word_2;
 
                             output = string.Format("{0:x4}", int.Parse(value));
-                            SaveToObjectFile(output);
+                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                            SaveToObjectFile(binary + " | " + output);
 
                         }
                     }
@@ -395,8 +399,8 @@ namespace TwoPassAssembler
                         word_2 = lineWords[1];
                         word_3 = lineWords[2];
 
-                        bool isInstruction = instructions.Any(a => a.opName.Equals(word_2));
-                        bool isDirective = directives.Any(a => a.Equals(word_2));
+                        bool isInstruction = instructions.Any(a => a.opName.ToLower().Equals(word_2.ToLower()));
+                        bool isDirective = directives.Any(a => a.ToLower().Equals(word_2.ToLower()));
 
                         if (isInstruction)
                         {
@@ -407,21 +411,24 @@ namespace TwoPassAssembler
                             int address = GetSymbolAddress(operand);
 
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
-                            SaveToObjectFile(output);
+                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                            SaveToObjectFile(binary + " | " + output);
                         }
                         else if (isDirective)
                         {
                             directive = word_2;
                             value = word_3;
-                            if (directive == "DEC")
+                            if (directive.ToLower() == "DEC".ToLower())
                             {
                                 output = string.Format("{0:x4}", int.Parse(value));
-                                SaveToObjectFile(output);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(binary + " | " + output);
                             }
-                            else if (directive == "HEX")
+                            else if (directive.ToLower() == "HEX".ToLower())
                             {
                                 output = string.Format("{0:0000}", int.Parse(value));
-                                SaveToObjectFile(output);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(binary + " | " + output);
                             }
                         }
                         else
@@ -437,13 +444,13 @@ namespace TwoPassAssembler
                 }
             }
 
-            output = "E " + string.Format("{0:x4}", startingAddress);
-            SaveToObjectFile(output);
+            //output = "E " + string.Format("{0:x4}", startingAddress);
+           // SaveToObjectFile(output);
         }
 
         private static int GetSymbolAddress(string operand)
         {
-            var res = symTable.SingleOrDefault(a => a.symName == operand);
+            var res = symTable.SingleOrDefault(a => a.symName.ToLower() == operand.ToLower());
 
             int address = res == null? 0 : res.symAddress;
 
@@ -452,7 +459,7 @@ namespace TwoPassAssembler
 
         private static int GetInstructionCode(string opCode)
         {
-            int code = instructions.SingleOrDefault(a => a.opName == opCode).opCode;
+            int code = instructions.SingleOrDefault(a => a.opName.ToLower() == opCode.ToLower()).opCode;
             return code;
         }
 

@@ -49,17 +49,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yhWG5Z8cP1HXW51JRu7/XbNhWIPum8la2IG4+/cI3Lc=</dsig:DigestValue>
+        <dsig:DigestValue>ecnqm+cyQ7i9CeIN6tcxgfEAKIn6xmDees1GAOfZg9o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Files\assemblyCode.txt" size="267">
+  <file name="Files\assemblyCode.txt" size="72">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>V5YzJ5seFhPRzAiGiUxm2xSAE3rW8oZEMSqaWPlL1Ww=</dsig:DigestValue>
+      <dsig:DigestValue>agrieaoNZeLVu+7c0g3pJc8+NRHR8eGmhSPx8sR/lH8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Files\examples.txt" size="288">

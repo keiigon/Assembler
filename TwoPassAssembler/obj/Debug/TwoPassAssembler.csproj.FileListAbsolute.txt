@@ -32,3 +32,7 @@ D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\assemblyCo
 D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\intermediateCode.txt
 D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\objectCode.txt
 D:\Tarek\Training_Projects\Assembler\TwoPassAssembler\bin\Debug\Files\SYMTAB.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\assemblyCode.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\intermediateCode.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\objectCode.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\SYMTAB.txt

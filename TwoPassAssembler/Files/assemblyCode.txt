@@ -1,24 +1,8 @@
-﻿ORG 100
-LOAD Addr
-STORE Next
-LOAD Num
-SUBT One
-STORE Ctr
-Loop LOAD Sum
-ADDI Next
-STORE Sum
-LOAD Next
-ADD One
-STORE Next
-LOAD Ctr
-SUBT One
-STORE Ctr
-SKIPCOND 000
-JUMP Loop
-HALT
-Addr HEX 117
-Next HEX 0
-Num DEC 5
-Sum DEC 0
-Ctr HEX 0
-One DEC 1
+﻿org 100
+load x
+add y
+store z
+halt
+x dec 35
+y dec 23
+z hex 0000
