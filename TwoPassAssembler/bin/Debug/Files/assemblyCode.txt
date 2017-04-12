@@ -1,5 +1,4 @@
-﻿org 100
-load x
+﻿load x
 add y
 store z
 halt

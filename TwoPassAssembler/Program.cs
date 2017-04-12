@@ -16,19 +16,195 @@ namespace TwoPassAssembler
         static int startingAddress = 0;
         static Instructions[] instructions;
         static string[] directives;
-        static List<Symbols> symTable = new List<Symbols>();
+        static List<Symbols> symTable1 = new List<Symbols>();
+        static List<Symbols> symTable2 = new List<Symbols>();
+        static List<string> totalObjectCodeList = new List<string>();
         static void Main(string[] args)
         {
             ResetFiles();
 
             CreateInstructions();
+
             CreateDirectives();
 
-            Pass_1();
+            LoadFirstAssembly();
 
-            Pass_2();
+            LoadSecondAssembly();
+
+            Linker();
+
+            Loader("100");
 
             Console.ReadLine();
+        }
+
+        static void Linker()
+        {
+            string objectFile1 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
+            string objectFile2 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode2.txt");
+            string addingObjectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\addingObjectCode.txt");
+
+            string line = "";
+
+            int totalSize = 0;
+
+            int firstProgSize = 0;
+
+            string startingAddress = "";
+
+            using (var reader = new StreamReader(objectFile1))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] firstLine = line.Split(' ');
+
+                    if (firstLine.Length > 1)
+                    {
+                        startingAddress = firstLine[1];
+
+                        string size = firstLine[2];
+
+                        totalSize = Convert.ToInt32(size, 16);
+
+                        firstProgSize = totalSize;
+                    }
+                    else
+                    {
+                        totalObjectCodeList.Add(firstLine[0]);
+                    }
+                }
+            }
+
+            using (var reader = new StreamReader(objectFile2))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] firstLine = line.Split(' ');
+
+                    if (firstLine.Length > 1)
+                    {
+                        string size = firstLine[2];
+
+                        totalSize += Convert.ToInt32(size, 16);
+                    }
+                    else
+                    {
+                        string[] lines = firstLine[0].Split('r');
+
+                        if (lines.Length == 1)
+                        {
+                            totalObjectCodeList.Add(firstLine[0]);
+                        }
+                        else
+                        {
+                            int address = Convert.ToInt32(lines[0], 16) + firstProgSize;
+
+                            string addressHexa = string.Format("{0:x4}", address);
+
+                            totalObjectCodeList.Add(addressHexa + "r");
+                        }
+
+                    }
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(addingObjectCode))
+            {
+                string header = "H " + startingAddress + " " + string.Format("{0:x4}", totalSize);
+
+                sw.WriteLine(header);
+
+                foreach (var s in totalObjectCodeList)
+                {
+                    sw.WriteLine(s);
+                }
+            }
+            
+        }
+
+        private static void Loader(string memoryAddress)
+        {
+            string addingObjectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\addingObjectCode.txt");
+            string Final = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\Final.txt");
+
+            totalObjectCodeList = new List<string>();
+
+            string line = "";
+
+            string size = "";
+
+            int memoryAdd = Convert.ToInt32(memoryAddress, 16);
+
+            using (var reader = new StreamReader(addingObjectCode))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] firstLine = line.Split(' ');
+
+                    if (firstLine.Length > 1)
+                    {
+                        size = firstLine[2];
+                    }
+                    else
+                    {
+                        string[] lines = firstLine[0].Split('r');
+
+                        if (lines.Length == 1)
+                        {
+                            totalObjectCodeList.Add(firstLine[0]);
+                        }
+                        else
+                        {
+                            int address = Convert.ToInt32(lines[0], 16) + memoryAdd;
+
+                            string addressHexa = string.Format("{0:x4}", address);
+
+                            totalObjectCodeList.Add(addressHexa);
+                        }
+
+                    }
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(Final))
+            {
+                string header = "H " + string.Format("{0:x4}", memoryAdd) + " " + size;
+
+                sw.WriteLine(header);
+
+                foreach (var s in totalObjectCodeList)
+                {
+                    sw.WriteLine(s);
+                }
+            }
+
+
+        }
+
+        static void LoadFirstAssembly()
+        {
+            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode.txt");
+            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
+            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
+            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB.txt");
+
+
+            Pass_1(assemblyCode, symTable1, intermediateCode, SYMTAB);
+
+            Pass_2(assemblyCode, symTable1, objectCode);
+        }
+
+        static void LoadSecondAssembly()
+        {
+            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode2.txt");
+            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode2.txt");
+            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode2.txt");
+            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB2.txt");
+
+
+            Pass_1(assemblyCode, symTable2, intermediateCode, SYMTAB);
+
+            Pass_2(assemblyCode, symTable2, objectCode);
         }
 
         static void CreateInstructions()
@@ -62,16 +238,13 @@ namespace TwoPassAssembler
             directives[7] = "DUP";
         }
 
-        static void Pass_1()
+        static void Pass_1(string assemblyCode, List<Symbols> symTable, string intermediateFilePath, string symFilePath)
         {
-            //string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
-            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode.txt");
-
-            
             using (var reader = new StreamReader(assemblyCode))
             {
                 string line;
                 string interLine = "";
+                locationCounter = 0;
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -91,7 +264,7 @@ namespace TwoPassAssembler
                         {
                             //Write something to intermediate file 
                             interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                            SaveToIntermediateFile(interLine);
+                            SaveToIntermediateFile(interLine, intermediateFilePath);
                             locationCounter++;
                         }
                         else
@@ -113,7 +286,7 @@ namespace TwoPassAssembler
                             operand = word_2;
                             //Write something to intermediate file interLine =
                             interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                            SaveToIntermediateFile(interLine);
+                            SaveToIntermediateFile(interLine, intermediateFilePath);
                             locationCounter++;
                         }
                         else if (isDirective)
@@ -140,7 +313,7 @@ namespace TwoPassAssembler
                                     });
 
                                     interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                                    SaveToIntermediateFile(interLine);
+                                    SaveToIntermediateFile(interLine, intermediateFilePath);
                                     locationCounter++;
                                 }
                             }
@@ -150,7 +323,7 @@ namespace TwoPassAssembler
                                 startingAddress = Convert.ToInt32(value, 16);                  
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                                SaveToIntermediateFile(interLine);
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
                                 locationCounter = startingAddress;
                             }
                             else if (directive.ToLower() == "TITLE".ToLower())
@@ -161,7 +334,7 @@ namespace TwoPassAssembler
 
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                                SaveToIntermediateFile(interLine);
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
 
                                 locationCounter++;
                             }
@@ -175,14 +348,14 @@ namespace TwoPassAssembler
                                 }
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                                SaveToIntermediateFile(interLine);
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
                                 locationCounter++;
                             }
                             else if (directive.ToLower() == "PUBLIC".ToLower())
                             {
                                 //Write something to intermediate file interLine =
                                 interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                                SaveToIntermediateFile(interLine);
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
                                 locationCounter++;
                             }
 
@@ -208,7 +381,7 @@ namespace TwoPassAssembler
                             }
                             //Write something to intermediate file interLine =
                             interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                            SaveToIntermediateFile(interLine);
+                            SaveToIntermediateFile(interLine, intermediateFilePath);
                             locationCounter++;
                             
                         }
@@ -234,7 +407,7 @@ namespace TwoPassAssembler
 
                             //Write something to intermediate file interLine =
                             interLine = string.Format("{0:x3}", locationCounter) + " " + line;
-                            SaveToIntermediateFile(interLine);
+                            SaveToIntermediateFile(interLine, intermediateFilePath);
                         }
 
                         word_2 = lineWords[1];
@@ -280,20 +453,17 @@ namespace TwoPassAssembler
 
                 programSize = locationCounter;
 
-                SaveToSymbleTable();
+                SaveToSymbleTable(symTable, symFilePath);
             }
         }
 
-        static void Pass_2()
+        static void Pass_2(string assemblyCode, List<Symbols> symTable, string objectFilePath)
         {
-            //string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\assemblyCode.txt");
-            string assemblyCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\assemblyCode.txt");
-
             string output = "";
 
-            //output = "H " + (string.IsNullOrEmpty(programName) ? "" : programName + " ") + string.Format("{0:x4}", startingAddress) + " " + string.Format("{0:x4}", programSize);
+            output = "H " + (string.IsNullOrEmpty(programName) ? "" : programName + " ") + string.Format("{0:x4}", startingAddress) + " " + string.Format("{0:x4}", programSize);
 
-            //SaveToObjectFile(output);
+            SaveToObjectFile(output, objectFilePath);
 
             using (var reader = new StreamReader(assemblyCode))
             {
@@ -318,7 +488,8 @@ namespace TwoPassAssembler
                             int code = GetInstructionCode(opCode);
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", 0);
                             string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                            SaveToObjectFile(binary + " | " + output);
+                            //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                            SaveToObjectFile(output, objectFilePath);
                         }
                         else
                         {
@@ -339,11 +510,12 @@ namespace TwoPassAssembler
                             operand = word_2;
 
                             int code = GetInstructionCode(opCode);
-                            int address = GetSymbolAddress(operand);
+                            int address = GetSymbolAddress(operand, symTable);
 
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
                             string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                            SaveToObjectFile(binary + " | " + output);
+                            //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                            SaveToObjectFile(output + "r", objectFilePath);
                         }
                         else if (isDirective)
                         {
@@ -353,10 +525,11 @@ namespace TwoPassAssembler
                             {
                                 operand = word_2;
 
-                                int address = GetSymbolAddress(operand);
+                                int address = GetSymbolAddress(operand, symTable);
                                 output = string.Format("{0:x4}", address);
                                 string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                                SaveToObjectFile(binary + " | " + output);
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output + "r", objectFilePath);
                             }
                             else if (directive.ToLower() == "ORG".ToLower())
                             {
@@ -374,10 +547,11 @@ namespace TwoPassAssembler
                             {
                                 operand = word_2;
 
-                                int address = GetSymbolAddress(operand);
+                                int address = GetSymbolAddress(operand, symTable);
                                 output = string.Format("{0:x4}", address);
                                 string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                                SaveToObjectFile(binary + " | " + output);
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output + "r", objectFilePath);
                             }
                         }
                         else //label
@@ -388,7 +562,8 @@ namespace TwoPassAssembler
 
                             output = string.Format("{0:x4}", int.Parse(value));
                             string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                            SaveToObjectFile(binary + " | " + output);
+                            //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                            SaveToObjectFile(output, objectFilePath);
 
                         }
                     }
@@ -408,11 +583,12 @@ namespace TwoPassAssembler
                             operand = word_3;
 
                             int code = GetInstructionCode(opCode);
-                            int address = GetSymbolAddress(operand);
+                            int address = GetSymbolAddress(operand, symTable);
 
                             output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
                             string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                            SaveToObjectFile(binary + " | " + output);
+                            //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                            SaveToObjectFile(output + "r", objectFilePath);
                         }
                         else if (isDirective)
                         {
@@ -422,13 +598,15 @@ namespace TwoPassAssembler
                             {
                                 output = string.Format("{0:x4}", int.Parse(value));
                                 string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                                SaveToObjectFile(binary + " | " + output);
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
                             }
                             else if (directive.ToLower() == "HEX".ToLower())
                             {
                                 output = string.Format("{0:0000}", int.Parse(value));
                                 string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                                SaveToObjectFile(binary + " | " + output);
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
                             }
                         }
                         else
@@ -448,7 +626,7 @@ namespace TwoPassAssembler
            // SaveToObjectFile(output);
         }
 
-        private static int GetSymbolAddress(string operand)
+        private static int GetSymbolAddress(string operand, List<Symbols> symTable)
         {
             var res = symTable.SingleOrDefault(a => a.symName.ToLower() == operand.ToLower());
 
@@ -463,13 +641,8 @@ namespace TwoPassAssembler
             return code;
         }
 
-        static void SaveToSymbleTable()
+        static void SaveToSymbleTable(List<Symbols> symTable, string SYMTAB)
         {
-            //string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
-            string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB.txt");
-
-
-
             using (StreamWriter sw = File.AppendText(SYMTAB))
             {
                 foreach (var s in symTable)
@@ -480,11 +653,9 @@ namespace TwoPassAssembler
 
         }
 
-        static void SaveToIntermediateFile(string inter)
+        static void SaveToIntermediateFile(string inter, string intermediateCode)
         {
             //string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
-            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
-
             
             using (StreamWriter sw = File.AppendText(intermediateCode))
             {
@@ -492,12 +663,8 @@ namespace TwoPassAssembler
             }
         }
 
-        static void SaveToObjectFile(string line)
+        static void SaveToObjectFile(string line, string objectCode)
         {
-            //string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
-            string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
-
-
             using (StreamWriter sw = File.AppendText(objectCode))
             {
                 sw.WriteLine(line);
@@ -506,30 +673,58 @@ namespace TwoPassAssembler
 
         static void ResetFiles()
         {
-            //string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\intermediateCode.txt");
-            string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
-
+           string intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode.txt");
 
             using (StreamWriter sw = new StreamWriter(intermediateCode))
             {
                 sw.Write("");
             }
 
-            //string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\SYMTAB.txt");
+            intermediateCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\intermediateCode2.txt");
+
+            using (StreamWriter sw = new StreamWriter(intermediateCode))
+            {
+                sw.Write("");
+            }
+
             string SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB.txt");
 
             using (StreamWriter sw = new StreamWriter(SYMTAB))
             {
-                foreach (var s in symTable)
-                {
-                    sw.Write("");
-                }
+                sw.Write("");
             }
 
-            //string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\Files\objectCode.txt");
+            SYMTAB = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\SYMTAB2.txt");
+
+            using (StreamWriter sw = new StreamWriter(SYMTAB))
+            {
+                sw.Write("");
+            }
+
             string objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode.txt");
 
             using (StreamWriter sw = new StreamWriter(objectCode))
+            {
+                sw.Write("");
+            }
+
+            objectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\objectCode2.txt");
+
+            using (StreamWriter sw = new StreamWriter(objectCode))
+            {
+                sw.Write("");
+            }
+
+            string addingObjectCode = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\addingObjectCode.txt");
+
+            using (StreamWriter sw = new StreamWriter(addingObjectCode))
+            {
+                sw.Write("");
+            }
+
+            string final = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\Final.txt");
+
+            using (StreamWriter sw = new StreamWriter(final))
             {
                 sw.Write("");
             }

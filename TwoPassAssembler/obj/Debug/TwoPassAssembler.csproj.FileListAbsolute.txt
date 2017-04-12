@@ -36,3 +36,9 @@ E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPa
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\intermediateCode.txt
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\objectCode.txt
 E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\SYMTAB.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\assemblyCode2.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\intermediateCode2.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\objectCode2.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\SYMTAB2.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\addingObjectCode.txt
+E:\Learning\Diploma\System-Programming\projects\TwoPassAssembler\Assembler\TwoPassAssembler\bin\Debug\Files\Final.txt

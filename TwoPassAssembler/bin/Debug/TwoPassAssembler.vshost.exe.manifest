@@ -42,24 +42,42 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwoPassAssembler.exe" size="15296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwoPassAssembler.exe" size="18368">
       <assemblyIdentity name="TwoPassAssembler" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ecnqm+cyQ7i9CeIN6tcxgfEAKIn6xmDees1GAOfZg9o=</dsig:DigestValue>
+        <dsig:DigestValue>Sz3EQAU7MHNXh4HRQ5X6SQndSYre5ZX1AWNz2ANRFKw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Files\assemblyCode.txt" size="72">
+  <file name="Files\addingObjectCode.txt" size="3">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>agrieaoNZeLVu+7c0g3pJc8+NRHR8eGmhSPx8sR/lH8=</dsig:DigestValue>
+      <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Files\assemblyCode.txt" size="63">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>InB2PTQdAdBcmLjU95Jhye9u5Eh1UmMCx9LDt6akRqk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Files\assemblyCode2.txt" size="63">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>InB2PTQdAdBcmLjU95Jhye9u5Eh1UmMCx9LDt6akRqk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Files\examples.txt" size="288">
@@ -71,6 +89,15 @@
       <dsig:DigestValue>i0u8CdkB/2ADRaKiK7Fa0SLZvth+buS+fAtiHT/2gz0=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Files\Final.txt" size="3">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Files\intermediateCode.txt" size="130">
     <hash>
       <dsig:Transforms>
@@ -78,6 +105,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>2mEyE86STVag1rrHI2qIrjBM/6y/5GTfqCVQvLc8j5w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Files\intermediateCode2.txt" size="3">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Files\objectCode.txt" size="73">
@@ -89,6 +125,15 @@
       <dsig:DigestValue>H7ZwylY8AqTNhe4eDLVwYsYJMA3VmL7RgjZWwnWfIWY=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Files\objectCode2.txt" size="3">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Files\SYMTAB.txt" size="57">
     <hash>
       <dsig:Transforms>
@@ -96,6 +141,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>2d15Y8+AUw3mns5j+YfMU49SGnhd5IjGgT6+qo2gTzQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Files\SYMTAB2.txt" size="3">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
     </hash>
   </file>
   <file name="TwoPassAssembler.exe.config" size="187">
