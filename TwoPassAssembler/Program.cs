@@ -29,11 +29,11 @@ namespace TwoPassAssembler
 
             LoadFirstAssembly();
 
-            LoadSecondAssembly();
+            //LoadSecondAssembly();
 
-            Linker();
+            //Linker();
 
-            Loader("100");
+            //Loader("100");
 
             Console.ReadLine();
         }
@@ -358,6 +358,18 @@ namespace TwoPassAssembler
                                 SaveToIntermediateFile(interLine, intermediateFilePath);
                                 locationCounter++;
                             }
+                            else if (directive.ToLower() == "DEC".ToLower())
+                            {
+                                interLine = string.Format("{0:x3}", locationCounter) + " " + line;
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
+                                locationCounter++;
+                            }
+                            else if (directive.ToLower() == "HEX".ToLower())
+                            {
+                                interLine = string.Format("{0:x3}", locationCounter) + " " + line;
+                                SaveToIntermediateFile(interLine, intermediateFilePath);
+                                locationCounter++;
+                            }
 
                         }
                         else //label
@@ -510,12 +522,23 @@ namespace TwoPassAssembler
                             operand = word_2;
 
                             int code = GetInstructionCode(opCode);
-                            int address = GetSymbolAddress(operand, symTable);
 
-                            output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
-                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+
+                            if (code == 5 || code == 6 || code == 8)
+                            {
+                                output = string.Format("{0:x}", code) + string.Format("{0:x3}", operand);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(output, objectFilePath);
+                            }
+                            else
+                            {
+                                int address = GetSymbolAddress(operand, symTable);
+                                output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(output + "r", objectFilePath);
+                            }
+
                             //SaveToObjectFile(binary + " | " + output, objectFilePath);
-                            SaveToObjectFile(output + "r", objectFilePath);
                         }
                         else if (isDirective)
                         {
@@ -553,18 +576,46 @@ namespace TwoPassAssembler
                                 //SaveToObjectFile(binary + " | " + output, objectFilePath);
                                 SaveToObjectFile(output + "r", objectFilePath);
                             }
+                            else if (directive.ToLower() == "DEC".ToLower())
+                            {
+                                operand = word_2;
+                                output = string.Format("{0:x4}", int.Parse(operand));
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
+                            }
+                            else if (directive.ToLower() == "HEX".ToLower())
+                            {
+                                operand = word_2;
+                                output = string.Format("{0:0000}", int.Parse(operand));
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
+                            }
                         }
                         else //label
                         {
                             label = word_1;
 
-                            value = word_2;
+                            isInstruction = instructions.Any(a => a.opName.ToLower().Equals(word_2.ToLower()));
 
-                            output = string.Format("{0:x4}", int.Parse(value));
-                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
-                            //SaveToObjectFile(binary + " | " + output, objectFilePath);
-                            SaveToObjectFile(output, objectFilePath);
-
+                            if (isInstruction)
+                            {
+                                opCode = word_2;
+                                int code = GetInstructionCode(opCode);
+                                output = string.Format("{0:x}", code) + string.Format("{0:x3}", 0);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
+                            }
+                            else
+                            {
+                                value = word_2;
+                                output = string.Format("{0:x4}", int.Parse(value));
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                //SaveToObjectFile(binary + " | " + output, objectFilePath);
+                                SaveToObjectFile(output, objectFilePath);
+                            }
                         }
                     }
                     else if (count == 3)
@@ -583,12 +634,22 @@ namespace TwoPassAssembler
                             operand = word_3;
 
                             int code = GetInstructionCode(opCode);
-                            int address = GetSymbolAddress(operand, symTable);
 
-                            output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
-                            string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                            if (code == 5 || code == 6 || code == 8)
+                            {
+                                output = string.Format("{0:x}", code) + string.Format("{0:x3}", operand);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(output, objectFilePath);
+                            }
+                            else
+                            {
+                                int address = GetSymbolAddress(operand, symTable);
+                                output = string.Format("{0:x}", code) + string.Format("{0:x3}", address);
+                                string binary = Convert.ToString(Convert.ToInt32(output, 16), 2).PadLeft(16, '0');
+                                SaveToObjectFile(output + "r", objectFilePath);
+                            }
+
                             //SaveToObjectFile(binary + " | " + output, objectFilePath);
-                            SaveToObjectFile(output + "r", objectFilePath);
                         }
                         else if (isDirective)
                         {

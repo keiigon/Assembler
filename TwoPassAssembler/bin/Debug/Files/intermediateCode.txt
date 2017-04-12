@@ -1,7 +1,30 @@
-000 load x
-001 add y
-002 store z
-003 halt
-004 x dec 35
-005 y dec 23
-006 z hex 0000
+000 ORG 100
+100 Load Addr
+101 Store Next
+102 Load Num
+103 Subt One
+104 Store Ctr
+105 Clear
+106 Loop Load Sum
+107 AddI Next
+108 Store Sum
+109 Load Next
+10a Add One
+10b Store Next
+10c Load Ctr
+10d Subt One
+10e Store Ctr
+10f Skipcond 000
+110 Jump Loop
+111 Halt
+112 Addr Hex 118
+113 Next Hex 0
+114 Num Dec 5
+115 Sum Dec 0
+116 Ctr Hex 0
+117 One Dec 1
+118 Dec 10
+119 Dec 15
+11a Dec 2
+11b Dec 25
+11c Dec 30		

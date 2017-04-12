@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwoPassAssembler.exe" size="18368">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TwoPassAssembler.exe" size="18880">
       <assemblyIdentity name="TwoPassAssembler" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Sz3EQAU7MHNXh4HRQ5X6SQndSYre5ZX1AWNz2ANRFKw=</dsig:DigestValue>
+        <dsig:DigestValue>Op51hB0DPXC3F7rkRGFZKQtXK7f7oSxVKq3yDEHR2JQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,13 +62,13 @@
       <dsig:DigestValue>8ZRc1sGeVrPBx4lD717BgRaQekyh78QKV9SKsdt638U=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Files\assemblyCode.txt" size="63">
+  <file name="Files\assemblyCode.txt" size="315">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>InB2PTQdAdBcmLjU95Jhye9u5Eh1UmMCx9LDt6akRqk=</dsig:DigestValue>
+      <dsig:DigestValue>cKRcvrREyO2daOFyejhE/uRr+VZt/4wXifLOKuDsz0I=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Files\assemblyCode2.txt" size="63">

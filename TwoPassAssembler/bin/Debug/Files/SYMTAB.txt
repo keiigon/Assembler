@@ -1,3 +1,7 @@
-x | 004 | r
-y | 005 | r
-z | 006 | r
+Loop | 106 | r
+Addr | 112 | r
+Next | 113 | r
+Num | 114 | r
+Sum | 115 | r
+Ctr | 116 | r
+One | 117 | r

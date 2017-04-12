@@ -1,7 +1,0 @@
-000 load x
-001 add y
-002 store z
-003 halt
-004 x dec 35
-005 y dec 23
-006 z hex 0000
